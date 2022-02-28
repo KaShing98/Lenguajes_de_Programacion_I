@@ -7,7 +7,6 @@ class BuddySystem:
 
     def Reservar(self, name, size):
         if name in self.names:
-            print(self.names)
             return "Block under name {} was already reserved".format(name)
 
         if (isinstance(size,str)):
@@ -18,6 +17,8 @@ class BuddySystem:
         if status:
             self.names[name] = size
             return "Block under name {} was reserved".format(name)
+        else:
+            return "Block under name {} cannot be reserved".format(name)
 
         return status
 

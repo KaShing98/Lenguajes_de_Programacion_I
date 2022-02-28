@@ -31,5 +31,21 @@ class VectorTests(unittest.TestCase):
         text += "[USED] Name: d, Size: 256\n"
         self.assertEqual(a.Mostrar(), text)
 
+    def test_allocate_same_name(self):
+        a = BuddySystem(1024)
+        self.assertEqual(a.Reservar("b", 512), "Block under name {} was reserved".format("b"))
+        self.assertEqual(a.Reservar("b", 256), "Block under name {} was already reserved".format("b"))
+
+    def test_not_enough_space(self):
+        a = BuddySystem(512)
+        self.assertEqual(a.Reservar("b", 1024), "Block under name {} cannot be reserved".format("b"))
+
+    def test_allocate_success_multiple(self):
+        a = BuddySystem(1024)
+        self.assertEqual(a.Reservar("b", 512), "Block under name {} was reserved".format("b"))
+        self.assertEqual(a.Reservar("c", 256), "Block under name {} was reserved".format("c"))
+        self.assertEqual(a.Reservar("d", 128), "Block under name {} was reserved".format("d"))
+        self.assertEqual(a.Reservar("df", 125), "Block under name {} was reserved".format("df"))
+
 if __name__ == '__main__':
     unittest.main()
