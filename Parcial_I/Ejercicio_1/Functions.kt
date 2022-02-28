@@ -1,9 +1,19 @@
 import kotlin.math.*
 
+/*
+    Precondición: b > 0
+    Postcondición: a^b
+
+    El algoritmo empleado es el de binary power:
+        a^n = 1                  if n == 0
+        a^n = (a^(n/2))²         if n > 0, n es par
+        a^n = (a^((n-1)/2))² * a if n > 0, n es impar
+*/
 fun Power(a: Int, b: Int): Long {
     var base = a.toLong()
     var exponent = b.toLong()
     var answer: Long = 1
+
 
     while (exponent > 0) {
         if ((exponent and 1) > 0) {
@@ -15,6 +25,9 @@ fun Power(a: Int, b: Int): Long {
     return answer
 }
 
+/*
+    Función que genera test random y los verifica contra la función de pow de kotlin
+*/
 fun RunPowerTests() {
     val powerTestRun = true
     val numberTestCases = 10
@@ -32,6 +45,10 @@ fun RunPowerTests() {
     }
 }
 
+/*
+    Precondición: a y b son Array de IntArray
+    Postcondición: Array de Intarray con el producto de a y b
+*/
 fun Multiplication(a: Array<IntArray>, b: Array<IntArray>): Array<IntArray>{
     val N = a.size
     val M = a[0].size
@@ -49,6 +66,9 @@ fun Multiplication(a: Array<IntArray>, b: Array<IntArray>): Array<IntArray>{
     return product
 }
 
+/*
+    Función que genera test random e imprime el resultado
+*/
 fun RunMatrixMultiplicationTests() {
     val N = (1..15).random()
     val M = (1..15).random()

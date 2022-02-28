@@ -1,4 +1,4 @@
-
+# Clase para representar un bloque de memoria
 class Block:
     def __init__(self, size, used=False, split=False):
         self.size = size
@@ -27,13 +27,18 @@ class Block:
     def set_used(self, used):
         self.used = used
 
+# Clase para representar la memoria
 class Memory:
     def __init__(self, size):
+        # self.left y self.right son diferentes de null, si la memoria fue dividida
         self.left = None
         self.right = None
+        # representacion del bloque actual
         self.val = Block(size)
 
     def split(self, size):
+        # Funcion split: divide el bloque si el espacio a reservar es mas grande que la siguiente potencia
+
         actual_block_size = self.val.get_size()
         next_block_size = self.val.get_size() // 2
 
@@ -44,22 +49,30 @@ class Memory:
             self.right = Memory(next_block_size)
 
     def allocate(self, name, size):
+        # Funcion allocate: divide la memoria para conseguir el bloque más ajustado y asignarla
+        # Retorna:
+        #   True: si se asigno correctamente
+        #   False: si no se asigno correctamente
         if self.val.get_used():
             return False
 
+        # Si el bloque está libre, dividir si es posible para consegui el bloque más ajustado
         if (self.right is None and self.left is None and not self.val.get_used()):
             self.split(size)
 
+        # Si se dividio, revisar si se puede asignar al bloque superior
         if (self.right is not None and not self.right.val.get_used()):
             status = self.right.allocate(name, size)
             if status:
                 return status
 
+        # Si se dividi0, y no fue asignado al bloque superior, revisar si se puede asignar al bloque inferior
         if (self.left is not None and not self.left.val.get_used()):
             status = self.left.allocate(name, size)
             if status:
                 return status
 
+        # Si no se dividio, entonces este es el bloque mas ajustado, ver si se puede asignar
         if (self.right is None and self.left is None):
             if (not self.val.get_used() and size <= self.val.get_size()):
                 self.val.set_used(True)
@@ -69,6 +82,11 @@ class Memory:
         return False
 
     def unallocate(self, name):
+        # Funcion unallocate: libera la memoria si fue ocupada
+        # Retorna:
+        #   True: si se libero correctamente
+        #   False: si no se libero correctamente
+
         if (self.val.get_name() == name):
             self.val.set_used(False)
             self.val.set_name(None)
@@ -97,7 +115,8 @@ class Memory:
         return False
 
     def print(self):
-
+        # Funcion print: imprime una representacion de la memoria
+        # Recorre el arbol con una funcion similar a BFS
         visited = {}
         queue = []
  

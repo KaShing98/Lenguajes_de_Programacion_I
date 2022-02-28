@@ -2,6 +2,7 @@ from BuddySystem import BuddySystem
 
 def main():
     
+    # Se toma el tamaño de la memoria
     while True:
         value = input('Enter memory size: ')
         try:
@@ -22,6 +23,7 @@ def main():
         "MOSTRAR": bs.Mostrar
     }
 
+    # Se toma la accion que se quiere realizar
     while True:
         print('\n')
         value = input('>')
